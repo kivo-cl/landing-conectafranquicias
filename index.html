@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conecta Franquicias | Tu Socio Estratégico en Expansión y Franquicias</title>
+  <meta name="description" content="En Conecta Franquicias ayudamos a marcas a crecer de forma profesional y a inversionistas a encontrar oportunidades seguras y rentables en Chile." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#8d54e7',
+            'brand-dark': '#4776e4',
+            'brand-light': '#a67df0',
+            'dark-bg': '#1e1b2e',
+            'darker-bg': '#13111f',
+          },
+          fontFamily: {
+            sans: ['Gotham', 'sans-serif'],
+          },
+          animation: {
+            'fade-up': 'fadeUp 0.8s ease forwards',
+            'fade-in': 'fadeIn 0.6s ease forwards',
+            'float': 'float 3s ease-in-out infinite',
+          },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(32px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-12px)' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- React + ReactDOM + Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Gotham self-hosted -->
+
+  <style>
+    /* ── Gotham @font-face ──────────────────────────────────────────── */
+    @font-face {
+      font-family: 'Gotham';
+      src: url('fonts/Gotham Black.otf') format('opentype');
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Gotham';
+      src: url('fonts/Gotham Bold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Gotham';
+      src: url('fonts/Gotham Bold Italic.ttf') format('truetype');
+      font-weight: 700;
+      font-style: italic;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Gotham';
+      src: url('fonts/Gotham Medium.otf') format('opentype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Gotham';
+      src: url('fonts/Gotham Book.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Gotham';
+      src: url('fonts/Gotham Light.otf') format('opentype');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Gotham', sans-serif; background: #fff; color: #1a1a2e; }
+
+    /* Reveal animation classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-28px);
+      transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(28px);
+      transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* Hero overlay */
+    .hero-overlay {
+      background: linear-gradient(135deg,
+        rgba(10, 8, 30, 0.90) 0%,
+        rgba(71, 118, 228, 0.55) 55%,
+        rgba(141, 84, 231, 0.45) 100%);
+    }
+
+    /* Service card overlay */
+    .svc-overlay {
+      background: linear-gradient(to top,
+        rgba(8, 4, 18, 0.97) 0%,
+        rgba(8, 4, 18, 0.65) 55%,
+        rgba(8, 4, 18, 0.15) 100%);
+    }
+
+    /* CTA section gradient — brand official */
+    .cta-bg {
+      background: linear-gradient(135deg, #2d5db5 0%, #4776e4 40%, #8d54e7 100%);
+    }
+
+    /* Hover lift cards */
+    .hover-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(141,84,231,0.15);
+    }
+
+    /* Service card zoom */
+    .svc-card img {
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .svc-card:hover img { transform: scale(1.06); }
+
+    /* Transition delay helpers */
+    .d-100 { transition-delay: 0.10s; }
+    .d-200 { transition-delay: 0.20s; }
+    .d-300 { transition-delay: 0.30s; }
+    .d-400 { transition-delay: 0.40s; }
+    .d-500 { transition-delay: 0.50s; }
+
+    /* Hero immediate animations */
+    .hero-tag  { animation: fadeUp 0.7s 0.1s ease both; }
+    .hero-h1   { animation: fadeUp 0.8s 0.25s ease both; }
+    .hero-sub  { animation: fadeUp 0.8s 0.4s ease both; }
+    .hero-ctas { animation: fadeUp 0.8s 0.55s ease both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Float animation */
+    .float-anim { animation: float 3.5s ease-in-out infinite; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+
+    /* FAQ max-height transition */
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1);
+    }
+    .faq-body.open { max-height: 300px; }
+
+    /* WhatsApp button pulse */
+    .wa-btn {
+      background: #25D366;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .wa-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 28px rgba(37,211,102,0.6);
+    }
+
+    /* Input focus */
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #8d54e7 !important;
+      box-shadow: 0 0 0 3px rgba(141,84,231,0.15);
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .mobile-menu.open { max-height: 480px; }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(#4776e4, #8d54e7); border-radius: 3px; }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback } = React;
+
+    /* ─── Scroll Reveal Hook ─────────────────────────────────────────── */
+    function useReveal(rootMargin = '0px 0px -60px 0px') {
+      const ref = useRef(null);
+      useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin }
+        );
+        const targets = el.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+        targets.forEach((t) => observer.observe(t));
+        return () => observer.disconnect();
+      }, []);
+      return ref;
+    }
+
+    /* ─── Logo ───────────────────────────────────────────────────────── */
+    function LogoSVG({ white = false, size = 40 }) {
+      const gId = `bg${size}`;
+      const h = Math.round(size * 0.88);
+      return (
+        <svg width={size} height={h} viewBox="0 0 46 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id={gId} x1="0" y1="0" x2="46" y2="0" gradientUnits="userSpaceOnUse">
+              {white
+                ? <><stop offset="0%" stopColor="rgba(255,255,255,0.85)"/><stop offset="100%" stopColor="rgba(255,255,255,0.95)"/></>
+                : <><stop offset="0%" stopColor="#4776e4"/><stop offset="100%" stopColor="#8d54e7"/></>
+              }
+            </linearGradient>
+          </defs>
+          {/* Top row: small dot left → large circle right, connected by blob path */}
+          <circle cx="5"  cy="8"  r="3.2" fill={`url(#${gId})`} />
+          <path d="M8 8 Q18 4 26 8 Q30 10 33 8" stroke={`url(#${gId})`} strokeWidth="5.5" strokeLinecap="round" fill="none"/>
+          <circle cx="38" cy="8"  r="6.5" fill={`url(#${gId})`} />
+          {/* Middle row: medium circle, tiny dot, connector */}
+          <circle cx="3.5" cy="21" r="2.4" fill={`url(#${gId})`} />
+          <circle cx="13" cy="21" r="4.8" fill={`url(#${gId})`} />
+          <path d="M18 21 Q25 18 31 21 Q35 23 39 21" stroke={`url(#${gId})`} strokeWidth="5.5" strokeLinecap="round" fill="none"/>
+          <circle cx="41" cy="21" r="3.8" fill={`url(#${gId})`} />
+          {/* Bottom row: small left blob → large circle right */}
+          <circle cx="5"  cy="34" r="2.8" fill={`url(#${gId})`} />
+          <path d="M8 34 Q17 31 24 34 Q30 37 35 34" stroke={`url(#${gId})`} strokeWidth="5.5" strokeLinecap="round" fill="none"/>
+          <circle cx="39" cy="34" r="5.5" fill={`url(#${gId})`} />
+        </svg>
+      );
+    }
+
+    function Logo({ white = false }) {
+      return (
+        <a href="#inicio" className="flex items-center gap-2.5 no-underline group">
+          <LogoSVG white={white} size={40} />
+          <div>
+            <div className={`text-[14px] font-black tracking-[0.14em] leading-none ${white ? 'text-white' : 'text-[#282828]'}`}
+              style={{fontFamily: "'Gotham', sans-serif"}}>
+              CONECTA
+            </div>
+            <div className={`text-[9px] font-normal tracking-[0.22em] mt-0.5 ${white ? 'text-white/65' : 'text-[#282828]/60'}`}
+              style={{fontFamily: "'Gotham', sans-serif"}}>
+              FRANQUICIAS
+            </div>
+          </div>
+        </a>
+      );
+    }
+
+    /* ─── Navbar ─────────────────────────────────────────────────────── */
+    function Navbar() {
+      const [menuOpen, setMenuOpen] = useState(false);
+      const [scrolled, setScrolled]   = useState(false);
+
+      useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 24);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+      }, []);
+
+      const links = [
+        { label: 'Beneficios',    href: '#beneficios' },
+        { label: 'Servicios',     href: '#servicios'  },
+        { label: 'Cómo Funciona', href: '#proceso'    },
+        { label: 'Contáctanos',   href: '#contacto'   },
+      ];
+
+      return (
+        <header className={`fixed top-0 inset-x-0 z-50 bg-white transition-shadow duration-300 ${scrolled ? 'shadow-lg' : 'shadow-sm'}`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+            <div className="flex items-center justify-between h-[68px] lg:h-20">
+              <Logo />
+
+              {/* Desktop Nav */}
+              <nav className="hidden lg:flex items-center gap-8">
+                {links.map((l) => (
+                  <a key={l.label} href={l.href}
+                    className="text-gray-600 hover:text-[#8d54e7] text-sm font-medium transition-colors duration-200">
+                    {l.label}
+                  </a>
+                ))}
+              </nav>
+
+              {/* Desktop CTAs */}
+              <div className="hidden lg:flex items-center gap-3">
+                <a href="#contacto"
+                  className="text-sm font-medium text-[#4776e4] border border-[#4776e4] px-5 py-2.5 rounded-lg hover:bg-[#eef2ff] transition-all duration-200">
+                  Agenda una asesoría
+                </a>
+                <a href="#contacto"
+                  className="text-sm font-semibold text-white bg-[#4776e4] px-5 py-2.5 rounded-lg transition-all duration-200 shadow-md hover:bg-[#3a65d4] active:scale-[0.98]">
+                  ¿Quieres Franquiciar?
+                </a>
+              </div>
+
+              {/* Mobile Hamburger */}
+              <button className="lg:hidden p-2 text-gray-700" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menú">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {menuOpen
+                    ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  }
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Menu */}
+          <div className={`mobile-menu lg:hidden bg-white border-t border-gray-100 ${menuOpen ? 'open' : ''}`}>
+            <div className="px-4 py-4 space-y-1">
+              {links.map((l) => (
+                <a key={l.label} href={l.href}
+                  className="block text-gray-700 text-sm font-medium py-2.5 px-2 rounded-lg hover:bg-gray-50 hover:text-[#8d54e7] transition-colors"
+                  onClick={() => setMenuOpen(false)}>
+                  {l.label}
+                </a>
+              ))}
+              <div className="pt-3 space-y-2 border-t border-gray-100 mt-2">
+                <a href="#contacto" className="block w-full text-center text-sm font-medium text-[#4776e4] border border-[#4776e4] px-4 py-2.5 rounded-lg hover:bg-[#eef2ff] transition-colors">
+                  Agenda una asesoría
+                </a>
+                <a href="#contacto" className="block w-full text-center text-sm font-bold text-white bg-[#4776e4] px-4 py-2.5 rounded-lg hover:bg-[#3a65d4] transition-colors">
+                  ¿Quieres Franquiciar?
+                </a>
+              </div>
+            </div>
+          </div>
+        </header>
+      );
+    }
+
+    /* ─── Hero ───────────────────────────────────────────────────────── */
+    function Hero() {
+      return (
+        <section id="inicio" className="relative min-h-[100dvh] flex items-center overflow-hidden">
+          {/* Background */}
+          <div className="absolute inset-0">
+            <img
+              src="images/hero.png"
+              alt="Expande tu marca o invierte en una franquicia"
+              className="w-full h-full object-cover"
+            />
+            <div className="hero-overlay absolute inset-0" />
+          </div>
+
+          {/* Content */}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-28 pb-20 lg:pt-40 lg:pb-32">
+            <div className="max-w-3xl">
+              {/* Tagline oficial */}
+              <div className="hero-tag inline-flex items-center gap-2 mb-7"
+                style={{background:'linear-gradient(90deg,#4776e4,#8d54e7)', borderRadius:'9999px', padding:'2px'}}>
+                <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full">
+                  <span className="w-2 h-2 rounded-full bg-white flex-shrink-0 opacity-80"></span>
+                  <p className="text-white text-xs sm:text-sm font-semibold tracking-wide">
+                    Expande tu marca. Conecta tu futuro.
+                  </p>
+                </div>
+              </div>
+
+              {/* Headline */}
+              <h1 className="hero-h1 text-4xl sm:text-5xl lg:text-6xl xl:text-[68px] font-black text-white leading-[1.03] mb-6">
+                EXPANDE TU MARCA O INVIERTE EN UNA{' '}
+                <span style={{background:'linear-gradient(90deg,#a78bfa,#c4b5fd)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>FRANQUICIA RENTABLE.</span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="hero-sub text-white/80 text-base sm:text-lg font-light leading-relaxed max-w-xl mb-10">
+                Te acompañamos en todo el proceso: desde el diseño del modelo hasta la apertura del nuevo punto de venta.
+              </p>
+
+              {/* CTAs */}
+              <div className="hero-ctas flex flex-col sm:flex-row gap-4">
+                <a href="#contacto"
+                  className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-[#4776e4] font-bold text-sm rounded-xl hover:bg-gray-100 transition-all duration-200 shadow-xl active:scale-[0.98]">
+                  Agenda una asesoría
+                </a>
+                <a href="#contacto"
+                  className="inline-flex items-center justify-center px-8 py-3.5 text-white font-bold text-sm rounded-xl transition-all duration-200 shadow-lg active:scale-[0.98] bg-[#4776e4] hover:bg-[#3a65d4] border border-white/20">
+                  ¿Quieres Franquiciar?
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom fade */}
+          <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white to-transparent" />
+        </section>
+      );
+    }
+
+    /* ─── Tu Socio Estratégico ───────────────────────────────────────── */
+    function SocioEstrategico() {
+      const ref = useReveal();
+      return (
+        <section id="beneficios" className="py-20 lg:py-32 bg-white" ref={ref}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+
+              {/* Image */}
+              <div className="reveal-left relative">
+                <div className="rounded-2xl overflow-hidden shadow-2xl aspect-[4/3]">
+                  <img
+                    src="images/socio.png"
+                    alt="Socios estratégicos en expansión"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {/* Decorative accent */}
+                <div className="absolute -bottom-6 -right-6 w-40 h-40 rounded-2xl bg-[#8d54e7]/10 -z-10" />
+                <div className="absolute -top-4 -left-4 w-20 h-20 rounded-xl border-2 border-[#8d54e7]/20 -z-10" />
+              </div>
+
+              {/* Content */}
+              <div className="reveal-right d-200">
+                <h2 className="text-3xl lg:text-[40px] font-bold text-gray-900 leading-tight mb-5">
+                  Tu socio estratégico en{' '}
+                  <span className="text-[#8d54e7]">expansión y franquicias</span>
+                </h2>
+                <div className="w-14 h-1.5 rounded-full mb-7" style={{background:'linear-gradient(90deg,#4776e4,#8d54e7)'}} />
+
+                {/* Accent box */}
+                <div className="border-l-4 border-[#8d54e7] bg-[#ede9ff] px-5 py-4 rounded-r-xl mb-6">
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    En Conecta Franquicias ayudamos a marcas a crecer de forma profesional y a inversionistas
+                    a encontrar oportunidades seguras y rentables.
+                  </p>
+                </div>
+
+                <p className="text-gray-500 text-sm leading-relaxed mb-8">
+                  Nuestro enfoque combina{' '}
+                  <strong className="text-gray-800 font-semibold">corretaje especializado</strong>,{' '}
+                  <strong className="text-gray-800 font-semibold">consultoría estratégica</strong> y{' '}
+                  <strong className="text-gray-800 font-semibold">acompañamiento integral</strong>, asegurando que
+                  cada franquicia avance con metodología, claridad y confianza.
+                </p>
+
+                <a href="#servicios"
+                  className="inline-flex items-center gap-2 text-[#4776e4] font-semibold text-sm group hover:gap-3 transition-all duration-200">
+                  Más Información
+                  <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ─── Por Qué Elegir ─────────────────────────────────────────────── */
+    function PorQueElegir() {
+      const ref = useReveal();
+
+      const cards = [
+        {
+          icon: (
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          ),
+          title: 'Acompañamiento Completo',
+          text: 'No solo conectamos marcas con inversionistas: te guiamos en cada paso, desde la estrategia hasta la apertura, con seguimiento constante y foco en resultados sostenibles.',
+        },
+        {
+          icon: (
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          ),
+          title: 'Mirada consultiva y estratégica',
+          text: 'Provenimos de Conecta Grupo Estratégico, con experiencia en gestión empresarial, finanzas y expansión comercial. Analizamos cada modelo de negocio con rigor y visión de rentabilidad real.',
+        },
+        {
+          icon: (
+            <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          ),
+          title: 'Confianza y transparencia',
+          text: 'Trabajamos con procesos claros y reportes periódicos, seleccionando cuidadosamente a los candidatos para construir relaciones sólidas y duraderas entre franquiciantes y franquiciados.',
+        },
+      ];
+
+      return (
+        <section className="py-20 lg:py-32 bg-gray-50" ref={ref}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+            {/* Header */}
+            <div className="text-center mb-14 reveal">
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
+                Por qué elegir Conecta Franquicias
+              </h2>
+              <p className="text-gray-500 text-sm font-light max-w-md mx-auto leading-relaxed">
+                No somos solo corredores. Somos tu estratégico en operación.
+              </p>
+              <a href="#contacto"
+                className="inline-flex items-center justify-center mt-7 px-8 py-3.5 text-white font-bold text-sm rounded-xl transition-all duration-200 shadow-lg active:scale-[0.98] bg-[#4776e4] hover:bg-[#3a65d4]">
+                Agenda una Asesoría Gratuita
+              </a>
+            </div>
+
+            {/* Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+              {cards.map((card, i) => (
+                <div key={i}
+                  className={`reveal hover-card bg-white rounded-2xl p-8 shadow-sm border border-gray-100/80 d-${(i + 1) * 100}`}>
+                  <div className="w-14 h-14 bg-[#ede9ff] rounded-xl flex items-center justify-center mb-5 text-[#8d54e7]">
+                    {card.icon}
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-3">{card.title}</h3>
+                  <p className="text-gray-500 text-sm font-light leading-relaxed">{card.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ─── Nuestros Servicios ─────────────────────────────────────────── */
+    function Servicios() {
+      const ref = useReveal();
+      return (
+        <section id="servicios" className="py-20 lg:py-32 bg-white" ref={ref}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+            <div className="text-center mb-14 reveal">
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
+                Nuestros Servicios
+              </h2>
+              <p className="text-gray-500 text-sm max-w-md mx-auto leading-relaxed">
+                Soluciones tanto para quienes buscan invertir, como para las marcas que buscan expandirse.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+              {/* Abrir una Franquicia */}
+              <div className="reveal svc-card relative rounded-2xl overflow-hidden shadow-xl" style={{height: '380px'}}>
+                <img
+                  src="images/servicio-abrir.png"
+                  alt="Abrir una Franquicia"
+                  className="w-full h-full object-cover object-top"
+                />
+                <div className="svc-overlay absolute inset-0" />
+                <div className="absolute bottom-0 left-0 right-0 p-8">
+                  <h3 className="text-2xl font-bold text-white mb-2">Abrir una Franquicia</h3>
+                  <p className="text-white/75 text-sm font-light mb-6 leading-relaxed">
+                    Te ayudamos a encontrar la franquicia ideal para ti, según tu perfil, capital disponible y expectativas de retorno.
+                  </p>
+                  <a href="#contacto"
+                    className="inline-flex items-center gap-2 text-sm font-bold text-white bg-[#4776e4] hover:bg-[#3a65d4] px-5 py-2.5 rounded-xl transition-colors duration-200 active:scale-[0.98]">
+                    Quiero Abrir una Franquicia
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              {/* Franquicia tu Marca */}
+              <div className="reveal svc-card relative rounded-2xl overflow-hidden shadow-xl d-200" style={{height: '380px'}}>
+                <img
+                  src="images/servicio-marca.png"
+                  alt="Franquicia tu Marca"
+                  className="w-full h-full object-cover object-top"
+                />
+                <div className="svc-overlay absolute inset-0" />
+                <div className="absolute bottom-0 left-0 right-0 p-8">
+                  <h3 className="text-2xl font-bold text-white mb-2">Franquicia tu Marca</h3>
+                  <p className="text-white/75 text-sm font-light mb-6 leading-relaxed">
+                    Diseñamos el modelo comercial, financiero y operativo, desarrollamos los manuales y te acompañamos en la búsqueda de inversionistas calificados para transformar tu marca.
+                  </p>
+                  <a href="#contacto"
+                    className="inline-flex items-center gap-2 text-sm font-bold text-white bg-[#4776e4] hover:bg-[#3a65d4] px-5 py-2.5 rounded-xl transition-colors duration-200 active:scale-[0.98]">
+                    Quiero Franquiciar mi Marca
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ─── Proceso ────────────────────────────────────────────────────── */
+    function Proceso() {
+      const ref = useReveal();
+
+      const steps = [
+        {
+          num: '1',
+          title: 'Diagnóstico inicial gratuito',
+          desc: 'Evaluamos tu marca o perfil de inversión para identificar el mejor camino de crecimiento.',
+        },
+        {
+          num: '2',
+          title: 'Diseño del modelo de franquicia',
+          desc: 'Estructuramos el modelo comercial, financiero y operativo para asegurar escalabilidad y consistencia.',
+        },
+        {
+          num: '3',
+          title: 'Corretaje y comercialización',
+          desc: 'Atraemos y filtramos inversionistas calificados, alineados con la estrategia y visión de la marca.',
+        },
+        {
+          num: '4',
+          title: 'Acompañamiento en la apertura',
+          desc: 'Te apoyamos en la búsqueda del punto, montaje e inauguración del nuevo local, asegurando una implementación exitosa.',
+        },
+      ];
+
+      return (
+        <section id="proceso" className="py-20 lg:py-32 bg-gray-50" ref={ref}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+
+              {/* Image */}
+              <div className="reveal-left relative order-2 lg:order-1">
+                <div className="rounded-2xl overflow-hidden shadow-2xl aspect-[4/3]">
+                  <img
+                    src="images/proceso.png"
+                    alt="Así te ayudamos a crecer"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute -top-5 -left-5 w-28 h-28 rounded-2xl bg-[#8d54e7]/10 -z-10" />
+              </div>
+
+              {/* Steps */}
+              <div className="reveal-right d-200 order-1 lg:order-2">
+                <h2 className="text-3xl lg:text-[40px] font-bold text-gray-900 leading-tight mb-10">
+                  Así te ayudamos a crecer{' '}
+                  <span className="text-[#8d54e7]">paso a paso</span>
+                </h2>
+
+                <div className="space-y-7">
+                  {steps.map((step, i) => (
+                    <div key={i} className="flex gap-4 items-start">
+                      {/* Circle check */}
+                      <div className="flex-shrink-0 w-11 h-11 rounded-full bg-[#4776e4] flex items-center justify-center shadow-md shadow-blue-900/20">
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-bold text-[#4776e4] uppercase tracking-[0.18em] mb-0.5">
+                          Paso {step.num}
+                        </div>
+                        <h4 className="text-base font-bold text-gray-900 mb-1">{step.title}</h4>
+                        <p className="text-gray-500 text-sm font-light leading-relaxed">{step.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ─── FAQ ────────────────────────────────────────────────────────── */
+    function FAQ() {
+      const [open, setOpen] = useState(null);
+      const ref = useReveal();
+
+      const faqs = [
+        {
+          q: '¿Puedo franquiciar cualquier tipo de negocio?',
+          a: 'Depende del modelo y la madurez de tu empresa. En la asesoría inicial te ayudamos a evaluar si tu negocio es franquiciable y qué ajustes necesita.',
+        },
+        {
+          q: '¿Cuánto cuesta desarrollar una franquicia?',
+          a: 'El costo varía según el tamaño y complejidad del modelo. Nuestro diagnóstico inicial es gratuito y te entregamos un presupuesto detallado antes de comenzar.',
+        },
+        {
+          q: '¿En cuánto tiempo puedo tener mi primera franquicia operando?',
+          a: 'En promedio, entre 3 y 6 meses desde el inicio del proyecto, dependiendo de los tiempos de diseño y búsqueda del inversionista adecuado.',
+        },
+        {
+          q: '¿Qué tipo de inversionistas buscan?',
+          a: 'Buscamos personas o grupos con capacidad de inversión, compromiso operativo y afinidad con el rubro del negocio. La compatibilidad es clave para el éxito.',
+        },
+      ];
+
+      return (
+        <section className="py-20 lg:py-32 bg-white" ref={ref}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-start">
+
+              {/* Left */}
+              <div className="reveal-left lg:col-span-2">
+                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+                  Preguntas Frecuentes
+                </h2>
+                <div className="w-10 h-1.5 rounded-full mb-5" style={{background:'linear-gradient(90deg,#4776e4,#8d54e7)'}} />
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  Sobre franquicias y nuestro servicio
+                </p>
+              </div>
+
+              {/* Accordion */}
+              <div className="reveal-right d-200 lg:col-span-3 space-y-3">
+                {faqs.map((faq, i) => (
+                  <div key={i} className="border border-gray-200 rounded-xl overflow-hidden">
+                    <button
+                      className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-50 transition-colors duration-150"
+                      onClick={() => setOpen(open === i ? null : i)}>
+                      <span className="text-gray-800 font-medium text-sm pr-4">{faq.q}</span>
+                      <div className={`flex-shrink-0 w-7 h-7 rounded-full bg-[#4776e4] flex items-center justify-center transition-transform duration-300 ${open === i ? 'rotate-45' : ''}`}>
+                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                        </svg>
+                      </div>
+                    </button>
+                    <div className={`faq-body ${open === i ? 'open' : ''}`}>
+                      <p className="px-6 pb-5 text-gray-500 text-sm font-light leading-relaxed">{faq.a}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ─── CTA Section ────────────────────────────────────────────────── */
+    function CTABanner() {
+      const ref = useReveal();
+      return (
+        <section className="cta-bg py-20 lg:py-24 relative overflow-hidden" ref={ref}>
+          {/* Decorative circles */}
+          <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-white/5 pointer-events-none" />
+          <div className="absolute -bottom-16 -left-16 w-60 h-60 rounded-full bg-white/5 pointer-events-none" />
+          <div className="absolute top-1/2 right-1/4 w-32 h-32 rounded-full bg-white/5 pointer-events-none" />
+
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-20">
+
+              {/* Text */}
+              <div className="reveal-left lg:max-w-lg text-center lg:text-left">
+                <h2 className="text-3xl lg:text-4xl font-bold text-white leading-tight mb-5">
+                  ¿Listo para hacer crecer tu marca o invertir en una franquicia rentable?
+                </h2>
+                <p className="text-white/75 text-sm font-light leading-relaxed mb-8">
+                  Agenda tu asesoría inicial gratuita y descubre cómo Conecta Franquicias puede acompañarte en cada paso del camino.
+                </p>
+                <a href="#contacto"
+                  className="inline-flex items-center justify-center px-8 py-3.5 bg-white text-[#8d54e7] font-bold text-sm rounded-xl hover:bg-gray-50 transition-all duration-200 shadow-xl active:scale-[0.98]">
+                  Agenda tu Asesoría Gratuita
+                </a>
+              </div>
+
+              {/* Rocket Illustration */}
+              <div className="reveal-right d-300 flex-shrink-0 float-anim">
+                <svg width="180" height="210" viewBox="0 0 180 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  {/* Body */}
+                  <ellipse cx="90" cy="98" rx="26" ry="52" fill="white" fillOpacity="0.95" />
+                  {/* Nose cone */}
+                  <path d="M90 30 C76 50 64 68 64 90 L116 90 C116 68 104 50 90 30Z" fill="white" fillOpacity="0.95" />
+                  {/* Window */}
+                  <circle cx="90" cy="92" r="13" fill="#8d54e7" fillOpacity="0.9" />
+                  <circle cx="90" cy="92" r="9"  fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
+                  <circle cx="86" cy="88" r="3"  fill="white" fillOpacity="0.5" />
+                  {/* Left fin */}
+                  <path d="M64 122 L46 154 L64 144 Z" fill="white" fillOpacity="0.85" />
+                  {/* Right fin */}
+                  <path d="M116 122 L134 154 L116 144 Z" fill="white" fillOpacity="0.85" />
+                  {/* Bottom */}
+                  <ellipse cx="90" cy="154" rx="17" ry="7" fill="white" fillOpacity="0.4" />
+                  {/* Flame outer */}
+                  <path d="M78 154 C75 168 72 180 78 192 C82 198 86 200 90 205 C94 200 98 198 102 192 C108 180 105 168 102 154 Z" fill="#FF9800" fillOpacity="0.85" />
+                  {/* Flame inner */}
+                  <path d="M83 154 C81 165 79 175 82 184 C85 189 87 193 90 197 C93 193 95 189 98 184 C101 175 99 165 97 154 Z" fill="#FFC107" fillOpacity="0.95" />
+                  {/* Stars */}
+                  <circle cx="30" cy="45" r="2.5" fill="white" fillOpacity="0.55" />
+                  <circle cx="152" cy="35" r="2"   fill="white" fillOpacity="0.45" />
+                  <circle cx="158" cy="75" r="2.5" fill="white" fillOpacity="0.4"  />
+                  <circle cx="22"  cy="110" r="2"  fill="white" fillOpacity="0.45" />
+                  <circle cx="155" cy="120" r="2"  fill="white" fillOpacity="0.35" />
+                  <circle cx="40"  cy="155" r="1.5" fill="white" fillOpacity="0.4" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ─── Contacto ───────────────────────────────────────────────────── */
+    function Contacto() {
+      const ref = useReveal();
+      const [form, setForm] = useState({ nombre: '', email: '', telefono: '', interes: '' });
+      const [sent, setSent] = useState(false);
+
+      const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        const msg = `Hola! Soy ${form.nombre}. Interés: ${form.interes}. Email: ${form.email}. Teléfono: ${form.telefono}`;
+        window.open(`https://api.whatsapp.com/send/?phone=56977486436&text=${encodeURIComponent(msg)}`, '_blank');
+        setSent(true);
+        setTimeout(() => setSent(false), 5000);
+      };
+
+      return (
+        <section id="contacto" className="py-20 lg:py-32 bg-[#1e1b2e] relative overflow-hidden" ref={ref}>
+          {/* Subtle glow */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#8d54e7]/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+              {/* Left Text */}
+              <div className="reveal-left">
+                <h2 className="text-3xl lg:text-4xl font-bold text-white leading-tight mb-5">
+                  Conversemos sobre tu próxima franquicia
+                </h2>
+                <p className="text-white/55 text-sm font-light leading-relaxed mb-8">
+                  Déjanos tus datos y un asesor especializado te contactará a la brevedad para orientarte según tu perfil o negocio
+                </p>
+
+                {/* Trust */}
+                <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-4">
+                  <div className="w-8 h-8 rounded-lg bg-[#8d54e7]/20 flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-[#8d54e7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
+                  <p className="text-white/50 text-xs leading-relaxed">
+                    Tu información es confidencial. No compartimos tus datos con terceros
+                  </p>
+                </div>
+              </div>
+
+              {/* Form */}
+              <div className="reveal-right d-200">
+                <form onSubmit={handleSubmit} className="bg-white/5 border border-white/10 rounded-2xl p-7 lg:p-8 space-y-5">
+
+                  {/* Nombre */}
+                  <div>
+                    <label className="block text-white/60 text-xs font-medium mb-1.5">Nombre</label>
+                    <input
+                      type="text" name="nombre" value={form.nombre} onChange={handleChange}
+                      placeholder="Tu nombre completo" required
+                      className="w-full bg-white/8 border border-white/15 text-white placeholder-white/25 rounded-xl px-4 py-3 text-sm transition-all duration-200"
+                      style={{background: 'rgba(255,255,255,0.06)'}}
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label className="block text-white/60 text-xs font-medium mb-1.5">Email</label>
+                    <input
+                      type="email" name="email" value={form.email} onChange={handleChange}
+                      placeholder="tu@email.com" required
+                      className="w-full border border-white/15 text-white placeholder-white/25 rounded-xl px-4 py-3 text-sm transition-all duration-200"
+                      style={{background: 'rgba(255,255,255,0.06)'}}
+                    />
+                  </div>
+
+                  {/* Teléfono */}
+                  <div>
+                    <label className="block text-white/60 text-xs font-medium mb-1.5">Teléfono / Whatsapp</label>
+                    <input
+                      type="tel" name="telefono" value={form.telefono} onChange={handleChange}
+                      placeholder="+56 9 XXXX XXXX"
+                      className="w-full border border-white/15 text-white placeholder-white/25 rounded-xl px-4 py-3 text-sm transition-all duration-200"
+                      style={{background: 'rgba(255,255,255,0.06)'}}
+                    />
+                  </div>
+
+                  {/* Interés */}
+                  <div>
+                    <label className="block text-white/60 text-xs font-medium mb-1.5">Selecciona tu interés</label>
+                    <select
+                      name="interes" value={form.interes} onChange={handleChange} required
+                      className="w-full border border-white/15 text-white rounded-xl px-4 py-3 text-sm transition-all duration-200 cursor-pointer"
+                      style={{background: 'rgba(255,255,255,0.06)'}}>
+                      <option value="" disabled style={{color:'#333', background:'#1a1035'}}>Elige una opción</option>
+                      <option value="Quiero abrir una franquicia" style={{color:'#111', background:'#fff'}}>Quiero abrir una franquicia</option>
+                      <option value="Quiero franquiciar mi marca" style={{color:'#111', background:'#fff'}}>Quiero franquiciar mi marca</option>
+                      <option value="Quiero recibir asesoría general" style={{color:'#111', background:'#fff'}}>Quiero recibir asesoría general</option>
+                    </select>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className={`w-full font-bold py-3.5 rounded-xl transition-all duration-200 text-sm shadow-lg active:scale-[0.98] text-white ${
+                      sent ? 'bg-green-500 cursor-default' : 'bg-[#4776e4] hover:bg-[#3a65d4]'
+                    }`}>
+                    {sent ? '¡Mensaje enviado!' : 'Agendar asesoría gratuita'}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────────────── */
+    function Footer() {
+      const navLinks = ['Beneficios', 'Servicios', 'Cómo Funciona', 'Contáctanos'];
+      return (
+        <footer className="bg-[#13111f] py-14 border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-16 mb-10">
+
+              {/* Brand */}
+              <div className="lg:col-span-1">
+                <Logo white />
+                <p className="text-white/35 text-xs font-light leading-relaxed mt-4 max-w-xs">
+                  Conecta Franquicias es una empresa de Conecta Grupo Estratégico SpA, dedicada al corretaje y desarrollo de franquicias en Chile. Profesionalizamos el crecimiento de las marcas y conectamos a las personas con oportunidades de inversión confiables.
+                </p>
+              </div>
+
+              {/* Nav */}
+              <div>
+                <h4 className="text-white/70 font-semibold text-sm mb-5 tracking-wide">Navegación</h4>
+                <ul className="space-y-3">
+                  {navLinks.map((item) => (
+                    <li key={item}>
+                      <a href={`#${item.toLowerCase().replace(' ', '')}`}
+                        className="text-white/35 hover:text-white/65 text-xs transition-colors duration-200">
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Contact */}
+              <div>
+                <h4 className="text-white/70 font-semibold text-sm mb-5 tracking-wide">Contacto</h4>
+                <div className="space-y-3.5">
+                  <div className="flex items-start gap-2.5">
+                    <svg className="w-4 h-4 text-[#8d54e7] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span className="text-white/35 text-xs">Ñuñoa, Santiago de Chile</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <svg className="w-4 h-4 text-[#8d54e7] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <a href="mailto:contacto@conectafranquicias.cl"
+                      className="text-white/35 hover:text-white/60 text-xs transition-colors duration-200">
+                      contacto@conectafranquicias.cl
+                    </a>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <svg className="w-4 h-4 text-[#25D366] mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.464 3.488" />
+                    </svg>
+                    <a href="https://api.whatsapp.com/send/?phone=56977486436" target="_blank" rel="noopener noreferrer"
+                      className="text-white/35 hover:text-white/60 text-xs transition-colors duration-200">
+                      +56 9 7748 6436
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t border-white/5 pt-7 flex flex-col sm:flex-row justify-between items-center gap-3">
+              <p className="text-white/20 text-xs">
+                &copy; 2025 Conecta Franquicias. Todos los derechos reservados.
+              </p>
+              <p className="text-white/20 text-xs">
+                Una empresa de Conecta Grupo Estratégico SpA
+              </p>
+            </div>
+          </div>
+        </footer>
+      );
+    }
+
+    /* ─── WhatsApp Float ─────────────────────────────────────────────── */
+    function WhatsApp() {
+      return (
+        <a href="https://api.whatsapp.com/send/?phone=56977486436"
+          target="_blank" rel="noopener noreferrer"
+          className="wa-btn fixed bottom-6 right-5 z-50 w-14 h-14 rounded-full flex items-center justify-center text-white"
+          aria-label="Contactar por WhatsApp">
+          <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.464 3.488" />
+          </svg>
+        </a>
+      );
+    }
+
+    /* ─── App ────────────────────────────────────────────────────────── */
+    function App() {
+      return (
+        <>
+          <Navbar />
+          <main>
+            <Hero />
+            <SocioEstrategico />
+            <PorQueElegir />
+            <Servicios />
+            <Proceso />
+            <FAQ />
+            <CTABanner />
+            <Contacto />
+          </main>
+          <Footer />
+          <WhatsApp />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
