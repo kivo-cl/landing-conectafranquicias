@@ -12,6 +12,8 @@ logo_url: /images/logo.png
 collections:
   - name: "sitio"
     label: "Contenido del Sitio"
+    editor:
+      preview: false
     files:
       - name: "hero"
         label: "Portada"
