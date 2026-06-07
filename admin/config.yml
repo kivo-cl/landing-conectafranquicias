@@ -1,0 +1,137 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: images
+public_folder: /images
+
+locale: es
+
+collections:
+  - name: "sitio"
+    label: "Contenido del Sitio"
+    files:
+      - name: "hero"
+        label: "Portada"
+        file: "content/hero.json"
+        format: json
+        fields:
+          - {label: "Tagline (píldora superior)", name: "tagline", widget: "string"}
+          - {label: "Titular — parte principal", name: "headline", widget: "string"}
+          - {label: "Titular — parte destacada (gradiente)", name: "headline_accent", widget: "string"}
+          - {label: "Subtítulo", name: "subtitle", widget: "text"}
+          - {label: "Botón primario", name: "cta_primary", widget: "string"}
+          - {label: "Botón secundario", name: "cta_secondary", widget: "string"}
+          - {label: "Imagen de fondo", name: "image", widget: "image"}
+
+      - name: "socio"
+        label: "Tu Socio Estratégico"
+        file: "content/socio.json"
+        format: json
+        fields:
+          - {label: "Título — parte principal", name: "heading", widget: "string"}
+          - {label: "Título — parte destacada (morado)", name: "heading_accent", widget: "string"}
+          - {label: "Texto de acento (caja lila)", name: "accent_text", widget: "text"}
+          - {label: "Texto principal", name: "body_text", widget: "text"}
+          - {label: "Imagen", name: "image", widget: "image"}
+
+      - name: "porque"
+        label: "Por Qué Elegirnos"
+        file: "content/porque.json"
+        format: json
+        fields:
+          - {label: "Título", name: "heading", widget: "string"}
+          - {label: "Subtítulo", name: "subheading", widget: "string"}
+          - label: "Tarjetas"
+            name: "cards"
+            widget: "list"
+            min: 3
+            max: 3
+            fields:
+              - {label: "Título", name: "title", widget: "string"}
+              - {label: "Texto", name: "text", widget: "text"}
+
+      - name: "servicios"
+        label: "Servicios"
+        file: "content/servicios.json"
+        format: json
+        fields:
+          - {label: "Título sección", name: "heading", widget: "string"}
+          - {label: "Subtítulo sección", name: "subheading", widget: "string"}
+          - label: "Servicio 1 — Abrir Franquicia"
+            name: "service1"
+            widget: "object"
+            fields:
+              - {label: "Título", name: "title", widget: "string"}
+              - {label: "Descripción", name: "description", widget: "text"}
+              - {label: "Texto del botón", name: "cta", widget: "string"}
+              - {label: "Imagen", name: "image", widget: "image"}
+          - label: "Servicio 2 — Franquicia tu Marca"
+            name: "service2"
+            widget: "object"
+            fields:
+              - {label: "Título", name: "title", widget: "string"}
+              - {label: "Descripción", name: "description", widget: "text"}
+              - {label: "Texto del botón", name: "cta", widget: "string"}
+              - {label: "Imagen", name: "image", widget: "image"}
+
+      - name: "proceso"
+        label: "Cómo Funciona"
+        file: "content/proceso.json"
+        format: json
+        fields:
+          - {label: "Título — parte principal", name: "heading", widget: "string"}
+          - {label: "Título — parte destacada (morado)", name: "heading_accent", widget: "string"}
+          - {label: "Imagen", name: "image", widget: "image"}
+          - label: "Pasos"
+            name: "steps"
+            widget: "list"
+            min: 1
+            max: 6
+            fields:
+              - {label: "Título del paso", name: "title", widget: "string"}
+              - {label: "Descripción", name: "desc", widget: "text"}
+
+      - name: "faq"
+        label: "Preguntas Frecuentes"
+        file: "content/faq.json"
+        format: json
+        fields:
+          - {label: "Título", name: "heading", widget: "string"}
+          - {label: "Subtítulo", name: "subheading", widget: "string"}
+          - label: "Preguntas"
+            name: "faqs"
+            widget: "list"
+            fields:
+              - {label: "Pregunta", name: "q", widget: "string"}
+              - {label: "Respuesta", name: "a", widget: "text"}
+
+      - name: "cta"
+        label: "Llamada a la Acción"
+        file: "content/cta.json"
+        format: json
+        fields:
+          - {label: "Título", name: "heading", widget: "string"}
+          - {label: "Texto", name: "subtext", widget: "text"}
+          - {label: "Texto del botón", name: "cta_text", widget: "string"}
+
+      - name: "contacto"
+        label: "Sección Contacto"
+        file: "content/contacto.json"
+        format: json
+        fields:
+          - {label: "Título", name: "heading", widget: "string"}
+          - {label: "Subtítulo", name: "subtext", widget: "text"}
+
+      - name: "footer"
+        label: "Footer"
+        file: "content/footer.json"
+        format: json
+        fields:
+          - {label: "Descripción empresa", name: "description", widget: "text"}
+          - {label: "Dirección", name: "address", widget: "string"}
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Teléfono (texto visible)", name: "phone_display", widget: "string"}
+          - {label: "Número WhatsApp (sin + ni espacios, ej: 56987305289)", name: "whatsapp_number", widget: "string"}
+          - {label: "Copyright", name: "copyright", widget: "string"}
+          - {label: "Subtexto inferior", name: "footer_sub", widget: "string"}

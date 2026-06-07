@@ -1,0 +1,22 @@
+{
+  "heading": "Preguntas Frecuentes",
+  "subheading": "Sobre franquicias y nuestro servicio",
+  "faqs": [
+    {
+      "q": "¿Puedo franquiciar cualquier tipo de negocio?",
+      "a": "Depende del modelo y la madurez de tu empresa. En la asesoría inicial te ayudamos a evaluar si tu negocio es franquiciable y qué ajustes necesita."
+    },
+    {
+      "q": "¿Cuánto cuesta desarrollar una franquicia?",
+      "a": "El costo varía según el tamaño y complejidad del modelo. Nuestro diagnóstico inicial es gratuito y te entregamos un presupuesto detallado antes de comenzar."
+    },
+    {
+      "q": "¿En cuánto tiempo puedo tener mi primera franquicia operando?",
+      "a": "En promedio, entre 3 y 6 meses desde el inicio del proyecto, dependiendo de los tiempos de diseño y búsqueda del inversionista adecuado."
+    },
+    {
+      "q": "¿Qué tipo de inversionistas buscan?",
+      "a": "Buscamos personas o grupos con capacidad de inversión, compromiso operativo y afinidad con el rubro del negocio. La compatibilidad es clave para el éxito."
+    }
+  ]
+}

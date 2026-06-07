@@ -1,0 +1,23 @@
+{
+  "heading": "Así te ayudamos a crecer",
+  "heading_accent": "paso a paso",
+  "image": "images/proceso.png",
+  "steps": [
+    {
+      "title": "Diagnóstico inicial gratuito",
+      "desc": "Evaluamos tu marca o perfil de inversión para identificar el mejor camino de crecimiento."
+    },
+    {
+      "title": "Diseño del modelo de franquicia",
+      "desc": "Estructuramos el modelo comercial, financiero y operativo para asegurar escalabilidad y consistencia."
+    },
+    {
+      "title": "Corretaje y comercialización",
+      "desc": "Atraemos y filtramos inversionistas calificados, alineados con la estrategia y visión de la marca."
+    },
+    {
+      "title": "Acompañamiento en la apertura",
+      "desc": "Te apoyamos en la búsqueda del punto, montaje e inauguración del nuevo local, asegurando una implementación exitosa."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "heading": "Nuestros Servicios",
+  "subheading": "Soluciones tanto para quienes buscan invertir, como para las marcas que buscan expandirse.",
+  "service1": {
+    "title": "Abrir una Franquicia",
+    "description": "Te ayudamos a encontrar la franquicia ideal para ti, según tu perfil, capital disponible y expectativas de retorno.",
+    "cta": "Quiero Abrir una Franquicia",
+    "image": "images/servicio-abrir.png"
+  },
+  "service2": {
+    "title": "Franquicia tu Marca",
+    "description": "Diseñamos el modelo comercial, financiero y operativo, desarrollamos los manuales y te acompañamos en la búsqueda de inversionistas calificados para transformar tu marca.",
+    "cta": "Quiero Franquiciar mi Marca",
+    "image": "images/servicio-marca.png"
+  }
+}
