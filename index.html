@@ -396,50 +396,15 @@
     }
 
     /* ─── Logo ───────────────────────────────────────────────────────── */
-    function LogoSVG({ white = false, size = 40 }) {
-      const gId = `bg${size}`;
-      const h = Math.round(size * 0.88);
-      return (
-        <svg width={size} height={h} viewBox="0 0 46 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id={gId} x1="0" y1="0" x2="46" y2="0" gradientUnits="userSpaceOnUse">
-              {white
-                ? <><stop offset="0%" stopColor="rgba(255,255,255,0.85)"/><stop offset="100%" stopColor="rgba(255,255,255,0.95)"/></>
-                : <><stop offset="0%" stopColor="#4776e4"/><stop offset="100%" stopColor="#8d54e7"/></>
-              }
-            </linearGradient>
-          </defs>
-          {/* Top row: small dot left → large circle right, connected by blob path */}
-          <circle cx="5"  cy="8"  r="3.2" fill={`url(#${gId})`} />
-          <path d="M8 8 Q18 4 26 8 Q30 10 33 8" stroke={`url(#${gId})`} strokeWidth="5.5" strokeLinecap="round" fill="none"/>
-          <circle cx="38" cy="8"  r="6.5" fill={`url(#${gId})`} />
-          {/* Middle row: medium circle, tiny dot, connector */}
-          <circle cx="3.5" cy="21" r="2.4" fill={`url(#${gId})`} />
-          <circle cx="13" cy="21" r="4.8" fill={`url(#${gId})`} />
-          <path d="M18 21 Q25 18 31 21 Q35 23 39 21" stroke={`url(#${gId})`} strokeWidth="5.5" strokeLinecap="round" fill="none"/>
-          <circle cx="41" cy="21" r="3.8" fill={`url(#${gId})`} />
-          {/* Bottom row: small left blob → large circle right */}
-          <circle cx="5"  cy="34" r="2.8" fill={`url(#${gId})`} />
-          <path d="M8 34 Q17 31 24 34 Q30 37 35 34" stroke={`url(#${gId})`} strokeWidth="5.5" strokeLinecap="round" fill="none"/>
-          <circle cx="39" cy="34" r="5.5" fill={`url(#${gId})`} />
-        </svg>
-      );
-    }
-
     function Logo({ white = false }) {
       return (
-        <a href="#inicio" className="flex items-center gap-2.5 no-underline group">
-          <LogoSVG white={white} size={40} />
-          <div>
-            <div className={`text-[14px] font-black tracking-[0.14em] leading-none ${white ? 'text-white' : 'text-[#282828]'}`}
-              style={{fontFamily: "'Gotham', sans-serif"}}>
-              CONECTA
-            </div>
-            <div className={`text-[9px] font-normal tracking-[0.22em] mt-0.5 ${white ? 'text-white/65' : 'text-[#282828]/60'}`}
-              style={{fontFamily: "'Gotham', sans-serif"}}>
-              FRANQUICIAS
-            </div>
-          </div>
+        <a href="#inicio" className="inline-flex items-center no-underline">
+          <img
+            src="images/logo.png"
+            alt="Conecta Franquicias — Franquicias Chile"
+            className="h-10 w-auto"
+            style={white ? {filter: 'brightness(0) invert(1)'} : {}}
+          />
         </a>
       );
     }
